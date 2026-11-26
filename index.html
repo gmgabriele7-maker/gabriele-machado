@@ -1,0 +1,382 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#100b0e">
+  <title>Studio Gabriele Machado Nails</title>
+  <style>
+    :root {
+      --fundo: #100b0e;
+      --cartao: #1c1419;
+      --rosa: #f28ab5;
+      --rosa-escuro: #d95d8c;
+      --texto: #fff7fa;
+      --suave: #c9b8c0;
+      --borda: #392832;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--fundo);
+      color: var(--texto);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.5;
+    }
+
+    header {
+      padding: 58px 20px 44px;
+      text-align: center;
+      background: radial-gradient(ellipse at top, #492136, var(--fundo) 68%);
+      border-bottom: 1px solid var(--borda);
+    }
+
+    header .marca {
+      color: var(--rosa);
+      font-size: 13px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 12px 0 8px;
+      font-family: Georgia, serif;
+      font-size: clamp(34px, 7vw, 58px);
+    }
+
+    header p { color: var(--suave); margin: 8px 0; }
+
+    main {
+      width: min(1050px, 92%);
+      margin: 34px auto 70px;
+    }
+
+    .topo-servicos, .linha, .botoes {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      color: var(--rosa);
+      font-family: Georgia, serif;
+      font-size: 27px;
+    }
+
+    .secao { margin-bottom: 38px; }
+
+    .grade {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+      gap: 13px;
+    }
+
+    .servico, .painel {
+      background: var(--cartao);
+      border: 1px solid var(--borda);
+      border-radius: 14px;
+      padding: 17px;
+    }
+
+    .servico strong { display: block; margin-bottom: 7px; }
+    .preco { color: var(--rosa); font-weight: bold; }
+
+    button, .botao {
+      border: 0;
+      border-radius: 9px;
+      padding: 11px 15px;
+      background: var(--rosa);
+      color: #201018;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    button:hover, .botao:hover { background: #ffa8ca; }
+    .secundario { background: transparent; color: var(--rosa); border: 1px solid var(--rosa); }
+    .pequeno { padding: 7px 10px; font-size: 12px; }
+    .perigo { color: #ff9a9a; border-color: #ff9a9a; }
+
+    .painel { padding: 24px; }
+    .formulario {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    label { display: block; color: var(--suave); font-size: 14px; }
+    input, select, textarea {
+      width: 100%;
+      margin-top: 6px;
+      padding: 12px;
+      border: 1px solid var(--borda);
+      border-radius: 8px;
+      background: #110d10;
+      color: var(--texto);
+      font: inherit;
+    }
+
+    .inteira { grid-column: 1 / -1; }
+    .ajuda { color: var(--suave); font-size: 13px; }
+    .mensagem { margin-top: 14px; color: var(--rosa); }
+    .lista-agendamentos { display: grid; gap: 10px; }
+    .agendamento { padding: 13px; background: #110d10; border-radius: 9px; }
+    footer { text-align: center; color: var(--suave); padding: 25px; border-top: 1px solid var(--borda); }
+
+    @media (max-width: 600px) {
+      .formulario { grid-template-columns: 1fr; }
+      .inteira { grid-column: auto; }
+      .topo-servicos { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="marca">Beleza • cuidado • autoestima</div>
+    <h1>Studio Gabriele Machado Nails</h1>
+    <p>Unhas e sobrancelhas feitas com carinho e profissionalismo.</p>
+    <p>📍 Atendimento em Altamira – PA</p>
+  </header>
+
+  <main>
+    <section class="secao">
+      <div class="topo-servicos">
+        <h2>Serviços e valores</h2>
+        <button class="secundario" onclick="abrirEdicao()">Editar serviços</button>
+      </div>
+      <div id="catalogo"></div>
+      <p class="ajuda">Os valores e nomes podem ser alterados no botão “Editar serviços”.</p>
+    </section>
+
+    <section class="secao">
+      <h2>Agende seu horário</h2>
+      <div class="painel">
+        <form id="formAgendamento" class="formulario">
+          <label>Seu nome
+            <input name="nome" required placeholder="Como podemos te chamar?">
+          </label>
+          <label>WhatsApp
+            <input name="telefone" required type="tel" placeholder="(00) 00000-0000">
+          </label>
+          <label class="inteira">Serviço
+            <select name="servico" id="servicoSelect" required></select>
+          </label>
+          <label>Data
+            <input name="data" type="date" required>
+          </label>
+          <label>Horário
+            <input name="hora" type="time" required>
+          </label>
+          <label class="inteira">Observação (opcional)
+            <textarea name="observacao" rows="3" placeholder="Conte algum detalhe importante"></textarea>
+          </label>
+          <div class="inteira">
+            <button type="submit">Salvar agendamento</button>
+            <p class="ajuda">O agendamento fica salvo neste dispositivo. Depois, você pode confirmar pelo WhatsApp.</p>
+            <div id="resultado" class="mensagem"></div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="secao">
+      <div class="topo-servicos">
+        <h2>Agenda salva neste dispositivo</h2>
+        <button class="secundario pequeno" onclick="limparAgenda()">Limpar agenda</button>
+      </div>
+      <div id="agenda" class="lista-agendamentos"></div>
+    </section>
+  </main>
+
+  <footer>Studio Gabriele Machado Nails • Altamira – PA</footer>
+
+  <script>
+    const servicosIniciais = [
+      { categoria: "Unhas", nome: "Manicure tradicional", valor: 30 },
+      { categoria: "Unhas", nome: "Pedicure tradicional", valor: 40 },
+      { categoria: "Unhas", nome: "Manicure c/ esmaltação em gel", valor: 50 },
+      { categoria: "Unhas", nome: "Pedicure c/ esmaltação em gel", valor: 50 },
+      { categoria: "Unhas", nome: "Pedicure SPA", valor: 80 },
+      { categoria: "Unhas", nome: "Pórtiça realista", valor: 70 },
+      { categoria: "Unhas", nome: "Banho em gel simples", valor: 60 },
+      { categoria: "Unhas", nome: "Banho em gel + esmaltação em gel", valor: 100 },
+      { categoria: "Unhas", nome: "Alongamento em gel (molde F1)", valor: 120 },
+      { categoria: "Unhas", nome: "Alongamento em gel + decoração de personagens", valor: 180 },
+      { categoria: "Unhas", nome: "Manutenção", valor: 90 },
+      { categoria: "Unhas", nome: "Manutenção vindo de outro lugar", valor: 150 },
+      { categoria: "Olhar", nome: "Sobrancelha com henna", valor: 40 },
+      { categoria: "Olhar", nome: "Design de sobrancelhas", valor: 20 },
+      { categoria: "Olhar", nome: "Design + coloração", valor: 50 },
+      { categoria: "Combos", nome: "Alongamento em gel + pedicure SPA", valor: 170 },
+      { categoria: "Combos", nome: "Pórtiça realista + pedicure SPA", valor: 130 },
+      { categoria: "Combos", nome: "Manicure tradicional + pedicure SPA", valor: 100 },
+      { categoria: "Combos", nome: "Manicure e pedicure tradicional", valor: 55 }
+    ];
+
+    let servicos = JSON.parse(localStorage.getItem("studioServicos")) || servicosIniciais;
+    let agendamentos = JSON.parse(localStorage.getItem("studioAgenda")) || [];
+
+    const dinheiro = valor => Number(valor).toLocaleString("pt-BR", {
+      style: "currency", currency: "BRL"
+    });
+
+    function salvarServicos() {
+      localStorage.setItem("studioServicos", JSON.stringify(servicos));
+      mostrarServicos();
+    }
+
+    function mostrarServicos() {
+      const catalogo = document.getElementById("catalogo");
+      const categorias = [...new Set(servicos.map(s => s.categoria))];
+
+      catalogo.innerHTML = categorias.map(categoria => `
+        <div class="secao">
+          <h2>${escapar(categoria)}</h2>
+          <div class="grade">
+            ${servicos.filter(s => s.categoria === categoria).map(s => `
+              <div class="servico">
+                <strong>${escapar(s.nome)}</strong>
+                <span class="preco">${dinheiro(s.valor)}</span>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      `).join("");
+
+      document.getElementById("servicoSelect").innerHTML =
+        '<option value="">Selecione um serviço</option>' +
+        servicos.map((s, i) =>
+          `<option value="${i}">${escapar(s.nome)} — ${dinheiro(s.valor)}</option>`
+        ).join("");
+    }
+
+    function abrirEdicao() {
+      const escolha = prompt(
+        "Digite o número do serviço para editar (1 a " + servicos.length +
+        "), ou digite NOVO para adicionar um serviço."
+      );
+      if (!escolha) return;
+
+      if (escolha.toLowerCase() === "novo") {
+        const categoria = prompt("Categoria (Unhas, Olhar ou Combos):", "Unhas");
+        if (!categoria) return;
+        const nome = prompt("Nome do serviço:");
+        if (!nome) return;
+        const valor = Number(prompt("Valor em reais (somente número):", "0").replace(",", "."));
+        if (!Number.isFinite(valor) || valor < 0) return alert("Digite um valor válido.");
+        servicos.push({ categoria, nome, valor });
+        salvarServicos();
+        return;
+      }
+
+      const indice = Number(escolha) - 1;
+      if (!Number.isInteger(indice) || !servicos[indice]) return alert("Número inválido.");
+
+      const acao = prompt(
+        `Serviço: ${servicos[indice].nome}\nDigite E para editar ou X para excluir.`
+      );
+      if (acao?.toLowerCase() === "x") {
+        if (confirm("Excluir este serviço?")) {
+          servicos.splice(indice, 1);
+          salvarServicos();
+        }
+      } else if (acao?.toLowerCase() === "e") {
+        const nome = prompt("Nome do serviço:", servicos[indice].nome);
+        if (!nome) return;
+        const valorTexto = prompt("Valor em reais (somente número):", servicos[indice].valor);
+        if (valorTexto === null) return;
+        const valor = Number(valorTexto.replace(",", "."));
+        if (!Number.isFinite(valor) || valor < 0) return alert("Digite um valor válido.");
+        const categoria = prompt("Categoria:", servicos[indice].categoria);
+        if (!categoria) return;
+        servicos[indice] = { nome, valor, categoria };
+        salvarServicos();
+      }
+    }
+
+    document.getElementById("formAgendamento").addEventListener("submit", function(event) {
+      event.preventDefault();
+      const dados = new FormData(this);
+      const servico = servicos[Number(dados.get("servico"))];
+      if (!servico) return;
+
+      const agendamento = {
+        id: Date.now(),
+        nome: dados.get("nome"),
+        telefone: dados.get("telefone"),
+        servico: servico.nome,
+        valor: servico.valor,
+        data: dados.get("data"),
+        hora: dados.get("hora"),
+        observacao: dados.get("observacao")
+      };
+
+      agendamentos.push(agendamento);
+      localStorage.setItem("studioAgenda", JSON.stringify(agendamentos));
+      mostrarAgenda();
+
+      const mensagem = `Olá! Quero confirmar meu agendamento no Studio Gabriele Machado Nails.%0A` +
+        `Nome: ${encodeURIComponent(agendamento.nome)}%0A` +
+        `Serviço: ${encodeURIComponent(agendamento.servico)}%0A` +
+        `Data: ${encodeURIComponent(agendamento.data)} às ${encodeURIComponent(agendamento.hora)}%0A` +
+        `Valor: ${encodeURIComponent(dinheiro(agendamento.valor))}`;
+
+      document.getElementById("resultado").innerHTML =
+        `Agendamento salvo! <a class="botao" target="_blank" rel="noopener" ` +
+        `href="https://wa.me/5566992609757?text=${mensagem}">Confirmar pelo WhatsApp</a>`;
+      this.reset();
+    });
+
+    function mostrarAgenda() {
+      const area = document.getElementById("agenda");
+      if (!agendamentos.length) {
+        area.innerHTML = '<p class="ajuda">Ainda não há agendamentos salvos.</p>';
+        return;
+      }
+
+      area.innerHTML = agendamentos
+        .sort((a, b) => (a.data + a.hora).localeCompare(b.data + b.hora))
+        .map(a => `
+          <div class="agendamento">
+            <div class="linha">
+              <strong>${escapar(a.nome)} — ${escapar(a.servico)}</strong>
+              <button class="secundario pequeno perigo" onclick="excluirAgendamento(${a.id})">Excluir</button>
+            </div>
+            <span>${escapar(a.data)} às ${escapar(a.hora)} • ${dinheiro(a.valor)}</span><br>
+            <span class="ajuda">WhatsApp: ${escapar(a.telefone)}</span>
+            ${a.observacao ? `<p class="ajuda">${escapar(a.observacao)}</p>` : ""}
+          </div>
+        `).join("");
+    }
+
+    function excluirAgendamento(id) {
+      agendamentos = agendamentos.filter(a => a.id !== id);
+      localStorage.setItem("studioAgenda", JSON.stringify(agendamentos));
+      mostrarAgenda();
+    }
+
+    function limparAgenda() {
+      if (confirm("Apagar todos os agendamentos salvos neste dispositivo?")) {
+        agendamentos = [];
+        localStorage.setItem("studioAgenda", JSON.stringify(agendamentos));
+        mostrarAgenda();
+      }
+    }
+
+    function escapar(texto) {
+      return String(texto).replace(/[&<>"']/g, c => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      })[c]);
+    }
+
+    mostrarServicos();
+    mostrarAgenda();
+  </script>
+</body>
+</html>
